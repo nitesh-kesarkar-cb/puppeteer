@@ -4,65 +4,97 @@ const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const config = require('./config');
+const { renderTemplate } = require('./utils/renderTemplate');
+
+
+// Data you want to inject
+const data = {
+  "PatientID": "ABC12345",
+  "ReportDate": "21-Oct-2025",
+  "CurrentWeight": "70.00",
+  "Height": "172.00",
+  "WeightOneMonthAgo": "80.00",
+  "WeightSixMonthsAgo": "-",
+  "WeightInTwoWeeks": "not changed",
+  "WeightInTwoWeeksScore": "0",
+  "WeightLossResult": "12.5",
+  "WeightLossPoint": "4",
+  "foodIntake_desc": "Little solid food",
+  "foodIntake_desc_1": "Less than usual",
+  "foodIntake_score_sum": "3",
+  "symptoms_desc": "No problems eating",
+  "symptoms_score": "0",
+  "activity_desc": "not feeling up to most things, but in bed or chair less than half the day",
+  "activity_score": "2",
+  "TotalScore": "13",
+  "Interpretation": "A score ≥ 9 indicates a high risk of malnutrition with urgent need for nutritionintervention.",
+  "TriageScore": "9",
+  "TriageText": "Indicates a critical need for improved symptom management and/or nutrient intervention options."
+};
+
+
 
 async function ensureReportsDir() {
-    const dir = path.resolve(__dirname, 'reports');
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
-    }
-    return dir;
+  const dir = path.resolve(__dirname, 'reports');
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  return dir;
 }
 
 // Load HTML content from assets/stage-A-report.html
 async function loadMainHtml() {
-    const htmlPath = path.resolve(__dirname, 'assets', 'stage-A-report.html');
-    if (!fs.existsSync(htmlPath)) {
-        throw new Error(`Main HTML not found at ${htmlPath}`);
-    }
-    // Read the HTML as a string. If your HTML references relative CSS/JS,
-    // ensure those assets are accessible (you may inline CSS if needed).
-    return fs.readFileSync(htmlPath, 'utf8');
+  const htmlPath = path.resolve(__dirname, 'assets', 'stage-A-report.html');
+  if (!fs.existsSync(htmlPath)) {
+    throw new Error(`Main HTML not found at ${htmlPath}`);
+  }
+  // Read the HTML as a string. If your HTML references relative CSS/JS,
+  // ensure those assets are accessible (you may inline CSS if needed).
+  return fs.readFileSync(htmlPath, 'utf8');
 }
 
 async function generatePdf() {
-    const reportsDir = await ensureReportsDir();
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const outputPath = path.join(reportsDir, `report-${timestamp}.pdf`);
+  const reportsDir = await ensureReportsDir();
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const outputPath = path.join(reportsDir, `report-${timestamp}.pdf`);
 
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-    });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  });
 
-    try {
-        const page = await browser.newPage();
+  try {
+    const page = await browser.newPage();
 
-        // Load main HTML content from file
-        const mainHtml = await loadMainHtml();
+    // Load main HTML content from file
+    const mainHtml = await loadMainHtml();
 
-        // Inject any additional CSS if needed
-        const fullHtml = `
+
+    const finalHtml = renderTemplate(mainHtml, data);
+
+    // Inject any additional CSS if needed
+    const fullHtml = `
       <html>
         <head>
           <meta charset="utf-8" />
           <style>${config.css || ''}</style>
         </head>
         <body style="margin:0; padding:0;">
-          ${mainHtml}
+          ${finalHtml}
         </body>
       </html>
     `;
 
-        await page.setContent(fullHtml, { waitUntil: 'networkidle0' });
+    await page.setContent(fullHtml, { waitUntil: 'networkidle0' });
 
 
-        await page.setViewport({ width: config.pdf.width, height: config.pdf.height });
+    await page.setViewport({ width: config.pdf.width, height: config.pdf.height });
 
-        // Ensure print CSS is respected
-        await page.emulateMediaType('print');
+    // Ensure print CSS is respected
+    await page.emulateMediaType('print');
 
-        // Prepare header/footer templates
-        const headerTemplate = `<div  style="
+    // Prepare header/footer templates
+    const headerTemplate = `<div  style="
             background: #c9e3e3;
             border-bottom: 1px solid #dbeaea;
             padding: 6px 0;border: 1px solid red;">
@@ -77,32 +109,32 @@ async function generatePdf() {
           </span>
       </div>`
 
-        const footerTemplate = `<div style="border: 1px solid red;"> <div><span><b>Powered by</b></span> <img src="${config.footer.footerLogoDataUrl}"  style="height: 20px; border: 1px solid red;" /></div>`;
+    const footerTemplate = `<div style="border: 1px solid red;"> <div><span><b>Powered by</b></span> <img src="${config.footer.footerLogoDataUrl}"  style="height: 20px; border: 1px solid red;" /></div>`;
 
-        // console.log('=========================');
-        // console.log('headerTemplate', headerTemplate);
-        // console.log('=========================');
-        // console.log('footerTemplate', footerTemplate);
-        // console.log('=========================');
-        // console.log('fullHtml', fullHtml);
+    // console.log('=========================');
+    // console.log('headerTemplate', headerTemplate);
+    // console.log('=========================');
+    // console.log('footerTemplate', footerTemplate);
+    // console.log('=========================');
+    // console.log('fullHtml', fullHtml);
 
-        // console.log('=========================');
-        // Generate PDF with header/footer and the configured margins
-        const pdfBuffer = await page.pdf({
-            ...config.pdf,
-            displayHeaderFooter: true,
-            headerTemplate: headerTemplate,
-            footerTemplate: footerTemplate
-        });
+    // console.log('=========================');
+    // Generate PDF with header/footer and the configured margins
+    const pdfBuffer = await page.pdf({
+      ...config.pdf,
+      displayHeaderFooter: true,
+      headerTemplate: headerTemplate,
+      footerTemplate: footerTemplate
+    });
 
-        // Save PDF
-        fs.writeFileSync(outputPath, pdfBuffer);
-        console.log(`PDF generated: ${outputPath} `);
-    } catch (err) {
-        console.error('Error generating PDF:', err);
-    } finally {
-        await browser.close();
-    }
+    // Save PDF
+    fs.writeFileSync(outputPath, pdfBuffer);
+    console.log(`PDF generated: ${outputPath} `);
+  } catch (err) {
+    console.error('Error generating PDF:', err);
+  } finally {
+    await browser.close();
+  }
 }
 
 // Run on startup

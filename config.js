@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
+
 function toDataUrl(filePath) {
     if (!filePath) return '';
     const abs = path.resolve(__dirname, filePath);
@@ -45,7 +46,7 @@ const fontCss = `
 body { font-family: 'Dinamit', Arial, sans-serif; }
 
 * {
- line-height: 1.5;
+ line-height: 1.75;
 }
 `;
 
