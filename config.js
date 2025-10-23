@@ -1,32 +1,31 @@
 // config.js
-const fs = require('fs');
-const path = require('path');
-
+const fs = require("fs");
+const path = require("path");
 
 function toDataUrl(filePath) {
-    if (!filePath) return '';
+    if (!filePath) return "";
     const abs = path.resolve(__dirname, filePath);
-    if (!fs.existsSync(abs)) return '';
-    const mime = 'image/png';
-    const data = fs.readFileSync(abs).toString('base64');
+    if (!fs.existsSync(abs)) return "";
+    const mime = "image/png";
+    const data = fs.readFileSync(abs).toString("base64");
     return `data:${mime};base64,${data}`;
 }
 
 function dataUrlFromFont(filePath) {
     const abs = path.resolve(__dirname, filePath);
-    if (!fs.existsSync(abs)) return '';
+    if (!fs.existsSync(abs)) return "";
     const ext = path.extname(abs).toLowerCase();
-    const mime = ext === '.otf' ? 'font/otf' : 'font/ttf';
-    const data = fs.readFileSync(abs).toString('base64');
+    const mime = ext === ".otf" ? "font/otf" : "font/ttf";
+    const data = fs.readFileSync(abs).toString("base64");
     return `data:${mime};base64,${data}`;
 }
 
 // Load your logos from assets and convert to data URLs
-const logoDataUrl = toDataUrl('./assets/euro-logo.png');
-const footerLogoDataUrl = toDataUrl('./assets/nutricia-logo.png');
+const logoDataUrl = toDataUrl("./assets/euro-logo.png");
+const footerLogoDataUrl = toDataUrl("./assets/nutricia-logo.png");
 
-const dinamitRegular = dataUrlFromFont('./assets/Dinamit Regular.otf');
-const dinamitSemi = dataUrlFromFont('./assets/Dinamit SemiBold.otf');
+const dinamitRegular = dataUrlFromFont("./assets/Dinamit Regular.otf");
+const dinamitSemi = dataUrlFromFont("./assets/Dinamit SemiBold.otf");
 
 const fontCss = `
 @font-face {
@@ -53,19 +52,21 @@ body { font-family: 'Dinamit', Arial, sans-serif; }
 module.exports = {
     // PDF layout settings
     pdf: {
-        format: 'A4',
+        format: "A4",
         printBackground: true,
         margin: {
-            top: '0',
-            right: '40px',
-            left: '40px',
-            bottom: '70px',
+            top: "0",
+            right: "40px",
+            left: "40px",
+            bottom: "70px",
         },
         height: 793,
-        width: 1123
+        width: 1123,
     },
     // Optional global CSS injected into the page
-    css: fontCss + `
+    css:
+        fontCss +
+        `
 
     :root {
             --bg: #ffffff;
@@ -233,14 +234,14 @@ module.exports = {
   `,
     // Header HTML (fixed height area that stays at the top)
     header: {
-        height: '22px',
+        height: "22px",
         logoDataUrl: logoDataUrl,
     },
     // Footer HTML (page footer with centered text and logo)
     footer: {
-        height: '20px',
+        height: "20px",
         footerLogoDataUrl: footerLogoDataUrl,
     },
     // Optional: path to assets if you need in code
-    assetsPath: path.join(__dirname, 'assets')
+    assetsPath: path.join(__dirname, "assets"),
 };

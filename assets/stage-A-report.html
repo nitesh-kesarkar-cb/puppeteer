@@ -18,9 +18,11 @@
                 <div class="divider" role="separator" aria-hidden="true"></div>
                 <div aria-label="Privacy note">
                     <strong>Privacy Note</strong><br />
-                    <div style="font-size: 12px;">Information is recorded only by Eurocept Homecare nurses and may be
+                    <div style="font-size: 12px">
+                        Information is recorded only by Eurocept Homecare nurses and may be
                         shared with the patient's dietitian or healthcare professional.
-                        Non-identifiable data may be used to improve services.</div>
+                        Non-identifiable data may be used to improve services.
+                    </div>
                 </div>
             </div>
         </section>
@@ -42,13 +44,21 @@
                     <li>Height: {Height} cm</li>
                     <li>One month ago: {WeightOneMonthAgo} kg</li>
                     <li>Six months ago: {WeightSixMonthsAgo} kg</li>
-                    <li>Weight change in past 2 weeks: {WeightInTwoWeeks} ({WeightInTwoWeeksScore} point)</li>
-                    <li>Weight loss in %: {WeightLossResult}% ({WeightLossPoint} point)</li>
+                    <li>
+                        Weight change in past 2 weeks: {WeightInTwoWeeks}
+                        ({WeightInTwoWeeksScore} point)
+                    </li>
+                    <li>
+                        Weight loss in %: {WeightLossResult}% ({WeightLossPoint} point)
+                    </li>
                 </ul>
 
                 <h4>2. Food Intake</h4>
                 <ul>
-                    <li>{foodIntake_desc}: {foodIntake_desc_1} ({foodIntake_score_sum} point)</li>
+                    <li>
+                        {foodIntake_desc}: {foodIntake_desc_1} ({foodIntake_score_sum}
+                        point)
+                    </li>
                 </ul>
 
                 <h4>3. Symptoms</h4>
@@ -63,9 +73,7 @@
                 </ul>
 
                 <p><span class="b">Additive Score = {TotalScore}</span></p>
-                <p>
-                    <span class="b">Interpretation:</span> {Interpretation}
-                </p>
+                <p><span class="b">Interpretation:</span> {Interpretation}</p>
 
                 <div class="pill" role="status" aria-live="polite">
                     Stage A: Well-nourished
@@ -80,18 +88,15 @@
             </div>
             <div class="card-body">
                 <p class="subhead">Score: {TriageScore}</p>
-                <p>
-                    {TriageText}
-                </p>
+                <p>{TriageText}</p>
             </div>
         </section>
     </div>
 
     <hr class="hr-soft" />
 
-
     <div role="region" aria-label="Recommendations and References">
-        <section class="card" style="margin-top: 0px !important;">
+        <section class="card" style="margin-top: 0px !important">
             <div class="card-head">Recommended Actions</div>
             <div class="card-body">
                 <p class="subhead">Profile</p>
@@ -127,12 +132,12 @@
             <div class="card-body">
                 <ol>
                     <li>
-                        Ottery FD. Patient-Generated Subjective Global Assessment
-                        (PG-SGA). ©2005–2020.
+                        Ottery FD. Patient-Generated Subjective Global Assessment (PG-SGA).
+                        ©2005–2020.
                     </li>
                     <li>
-                        Cederholm T, et al. GLIM criteria for the diagnosis of
-                        malnutrition – A consensus report. Clin Nutr. 2019;38(1):1–9.
+                        Cederholm T, et al. GLIM criteria for the diagnosis of malnutrition
+                        – A consensus report. Clin Nutr. 2019;38(1):1–9.
                     </li>
                     <li>
                         Arends J, et al. ESPEN guidelines on nutrition in cancer patients.
@@ -173,6 +178,5 @@
                 </ul>
             </div>
         </section>
-
     </div>
 </div>
