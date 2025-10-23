@@ -95,13 +95,15 @@ async function generatePdf() {
 
     // Prepare header/footer templates
     const headerTemplate = `<div  style="
-            background: #c9e3e3;
-            border-bottom: 1px solid #dbeaea;
-            padding: 6px 0;border: 1px solid red;">
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 6px 0;">
             <div style="padding: 0 12px;
             display: flex;
             align-items: center;
-            gap: 6px; border: 1px solid red;">
+            gap: 6px; ">
           <span style=" height: 26px;
             width: auto;
             display: block;">
@@ -109,7 +111,13 @@ async function generatePdf() {
           </span>
       </div>`
 
-    const footerTemplate = `<div style="border: 1px solid red;"> <div><span><b>Powered by</b></span> <img src="${config.footer.footerLogoDataUrl}"  style="height: 20px; border: 1px solid red;" /></div>`;
+    const footerTemplate = `<div style="width:100%;
+    height: 22px; display: block; background: transparent; ">
+      <div style="display:flex; align-items:end; justify-content: flex-start; padding:0 6px; height:22px;" >
+              <span><b style="font-size:12px; font-family: 'Dinamit';">Powered by</b></span> 
+              <img src="${config.footer.footerLogoDataUrl}" style="height: 20px; margin-left: 6px;" />
+            </div>
+          </div>`;
 
     // console.log('=========================');
     // console.log('headerTemplate', headerTemplate);

@@ -56,7 +56,7 @@ module.exports = {
         format: 'A4',
         printBackground: true,
         margin: {
-            top: '70px',
+            top: '0',
             right: '40px',
             left: '40px',
             bottom: '70px',
@@ -225,7 +225,6 @@ module.exports = {
             height: 1px;
             background: #e3eeee;
             border: 0;
-            margin: 6px 0;
         }
 
         .b {
@@ -234,7 +233,7 @@ module.exports = {
   `,
     // Header HTML (fixed height area that stays at the top)
     header: {
-        height: '40px',
+        height: '22px',
         logoDataUrl: logoDataUrl,
     },
     // Footer HTML (page footer with centered text and logo)
