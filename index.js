@@ -32,6 +32,7 @@ const data = {
   TriageScore: "9",
   TriageText:
     "Indicates a critical need for improved symptom management and/or nutrient intervention options.",
+  Logo: config.pdf.logoDataUrl,
 };
 
 async function ensureReportsDir() {
@@ -99,30 +100,10 @@ async function generatePdf() {
     await page.emulateMediaType("print");
 
     // Prepare header/footer templates
-    const headerTemplate = `<div  style="
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-            padding: 6px 0;">
-            <div style="padding: 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px; ">
-          <span style=" height: 26px;
-            width: auto;
-            display: block;">
-              <img src="${config.header.logoDataUrl}"  style="height: 40px" />
-          </span>
-      </div>`;
+    const headerTemplate = "";
 
-    const footerTemplate = `<div style="width:100%;
-    height: 22px; display: block; background: transparent; ">
-      <div style="display:flex; align-items:end; justify-content: flex-start; padding:0 6px; height:22px;" >
-              <span><b style="font-size:12px; font-family: 'Dinamit';">Powered by</b></span> 
-              <img src="${config.footer.footerLogoDataUrl}" style="height: 20px; margin-left: 6px;" />
-            </div>
-          </div>`;
+
+    const footerTemplate = ``;
 
     // console.log('=========================');
     // console.log('headerTemplate', headerTemplate);
@@ -135,7 +116,7 @@ async function generatePdf() {
     // Generate PDF with header/footer and the configured margins
     const pdfBuffer = await page.pdf({
       ...config.pdf,
-      displayHeaderFooter: true,
+      displayHeaderFooter: false,
       headerTemplate: headerTemplate,
       footerTemplate: footerTemplate,
     });

@@ -1,182 +1,151 @@
-<div role="main">
-    <div>
-        <!-- Personal Information -->
-        <section class="card">
-            <div class="card-head" id="pi-title">Personal Information</div>
-            <div class="card-body">
-                <div class="kv">
-                    <div class="kv-row">
-                        <div class="label">Patient ID Number:</div>
-                        <div class="value">{PatientID}</div>
-                    </div>
-                    <div class="kv-row">
-                        <div class="label">Report Generated:</div>
-                        <div class="value">{ReportDate}</div>
-                    </div>
-                </div>
-
-                <div class="divider" role="separator" aria-hidden="true"></div>
-                <div aria-label="Privacy note">
-                    <strong>Privacy Note</strong><br />
-                    <div style="font-size: 12px">
-                        Information is recorded only by Eurocept Homecare nurses and may be
-                        shared with the patient's dietitian or healthcare professional.
-                        Non-identifiable data may be used to improve services.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PG-SGA -->
-        <section class="card">
-            <div class="card-head" id="pgsga-title">
-                Patient-Generated Subjective Global Assessment (PG-SGA)
-            </div>
-            <div class="card-body">
-                <p class="muted">
-                    This assessment is based on the PG-SGA Short Form (SF) with 4 core
-                    domains.
-                </p>
-
-                <h4>1. Weight</h4>
-                <ul>
-                    <li>Current weight: {CurrentWeight} kg</li>
-                    <li>Height: {Height} cm</li>
-                    <li>One month ago: {WeightOneMonthAgo} kg</li>
-                    <li>Six months ago: {WeightSixMonthsAgo} kg</li>
-                    <li>
-                        Weight change in past 2 weeks: {WeightInTwoWeeks}
-                        ({WeightInTwoWeeksScore} point)
-                    </li>
-                    <li>
-                        Weight loss in %: {WeightLossResult}% ({WeightLossPoint} point)
-                    </li>
-                </ul>
-
-                <h4>2. Food Intake</h4>
-                <ul>
-                    <li>
-                        {foodIntake_desc}: {foodIntake_desc_1} ({foodIntake_score_sum}
-                        point)
-                    </li>
-                </ul>
-
-                <h4>3. Symptoms</h4>
-                <p>{symptoms_desc} in the past 2 weeks</p>
-                <ul>
-                    <li>Total = {symptoms_score} point</li>
-                </ul>
-
-                <h4>4. Activities and Function</h4>
-                <ul>
-                    <li>{activity_desc} ({activity_score} point)</li>
-                </ul>
-
-                <p><span class="b">Additive Score = {TotalScore}</span></p>
-                <p><span class="b">Interpretation:</span> {Interpretation}</p>
-
-                <div class="pill" role="status" aria-live="polite">
-                    Stage A: Well-nourished
-                </div>
-            </div>
-        </section>
-
-        <!-- Triage -->
-        <section class="card">
-            <div class="card-head" id="triage-title">
-                Nutritional Triage Recommendations
-            </div>
-            <div class="card-body">
-                <p class="subhead">Score: {TriageScore}</p>
-                <p>{TriageText}</p>
-            </div>
-        </section>
-    </div>
-
-    <hr class="hr-soft" />
-
-    <div role="region" aria-label="Recommendations and References">
-        <section class="card" style="margin-top: 0px !important">
-            <div class="card-head">Recommended Actions</div>
-            <div class="card-body">
-                <p class="subhead">Profile</p>
-                <ul>
-                    <li>Noticeable weight loss or reduced intake.</li>
-                    <li>
-                        Nutrition-impact symptoms (nausea, early satiety, taste changes).
-                    </li>
-                    <li>Early signs of muscle or fat loss, reduced function.</li>
-                </ul>
-
-                <p class="subhead">Intervention Recommendations</p>
-                <ul>
-                    <li>Refer to a dietitian for individualized support.</li>
-                    <li>
-                        Promote small, frequent meals enriched with energy and protein.
-                    </li>
-                    <li>
-                        Introduce ready-to-drink nutritional products tailored to specific
-                        clinical needs (e.g., high-protein, fiber-enriched,
-                        diabetes-appropriate, oncology-adapted).
-                    </li>
-                    <li>
-                        Manage barriers to intake (symptom relief, texture/flavor
-                        adjustments).
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="card">
-            <div class="card-head">References</div>
-            <div class="card-body">
-                <ol>
-                    <li>
-                        Ottery FD. Patient-Generated Subjective Global Assessment (PG-SGA).
-                        ©2005–2020.
-                    </li>
-                    <li>
-                        Cederholm T, et al. GLIM criteria for the diagnosis of malnutrition
-                        – A consensus report. Clin Nutr. 2019;38(1):1–9.
-                    </li>
-                    <li>
-                        Arends J, et al. ESPEN guidelines on nutrition in cancer patients.
-                        Clin Nutr. 2017;36(1):11–48.
-                    </li>
-                    <li>
-                        Volkert D, et al. ESPEN guideline on clinical nutrition and
-                        hydration in geriatrics. Clin Nutr. 2019;38(1):10–47.
-                    </li>
-                </ol>
-            </div>
-        </section>
-
-        <section class="card">
-            <div class="card-head">Disclaimers</div>
-            <div class="card-body">
-                <ul>
-                    <li>
-                        This screening result is for
-                        <span class="b">healthcare professionals only</span>.
-                    </li>
-                    <li>
-                        The PG-SGA identifies nutritional risk and should be followed by a
-                        <span class="b">comprehensive assessment</span> and
-                        <span class="b">individualized nutrition plan</span> under the
-                        supervision of a dietitian or physician.
-                    </li>
-                    <li>
-                        Oral Nutritional Supplements (ONS) are
-                        <span class="b">foods for special medical purposes</span> and must
-                        be used under medical supervision.
-                    </li>
-                    <li>
-                        This care plan is a <span class="b">suggested framework</span>;
-                        clinical judgment should be applied to adapt recommendations for
-                        each individual patient.
-                    </li>
-                </ul>
-            </div>
-        </section>
-    </div>
+<div
+    style="width: 100%; height: 34px; background-color: #0055A4 !important; padding: 7px 25px; display: flex; align-items: center; box-sizing: border-box; margin: 0; padding-left: 25px; padding-right: 25px;">
+    <div class="logo"><img style="width: 27px; height: 20px;" src="{Logo}" alt="" /></div>
 </div>
+<!-- Main Container -->
+<div class="container">
+    <!-- Content -->
+    <div class="content">
+        <!-- Title Section -->
+        <div class="title-section">
+            <h1 class="title">Patient Data Form</h1>
+            <p class="subtitle">Following are the patient's details</p>
+        </div>
+
+        <div class="content-container">
+            <!-- Information Header -->
+            <div class="info-header">
+                <span class="info-text">Information</span>
+                <span>
+                    <span class="date-of-submission">Date of Submission:</span>
+                    <span>31/12/1999</span>
+                </span>
+            </div>
+
+            <div class="info-content">
+                <!-- Form Fields -->
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">
+                            Care Facility or Hospital Name:
+                        </label>
+                        <span class="form-value">Alexander Hospital</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Patient Number:</label>
+                        <span class="form-value">1</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Country:</label>
+                        <span class="form-value">England</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Region:</label>
+                        <span class="form-value">South East</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Malnutrition Screening Tool:</label>
+                        <span class="form-value">MUST</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Age:</label>
+                        <span class="form-value">65</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Gender Assigned at Birth:</label>
+                        <span class="form-value">Male</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Care Setting:</label>
+                        <span class="form-value">Acute Hospital Inpatient</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Primary Diagnosis:</label>
+                        <span class="form-value">1-Cancer</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Does patient have cancer?</label>
+                        <span class="form-value">Yes</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Weight (kg):</label>
+                        <span class="form-value">70 kg</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Height (m):</label>
+                        <span class="form-value">1.75 m</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Recent unintentional weight loss (weight loss in past 3-6
+                            months):</label>
+                        <span class="form-value">5%</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Patient acutely ill with no / likely no intake >5
+                            days:</label>
+                        <span class="form-value">Yes</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Malnutrition Screening Risk Score:</label>
+                        <span class="form-value">2</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">Malnutrition Risk Category:</label>
+                        <span class="form-value">Low</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Nutritional Support :</label>
+                        <span class="form-value">Yes</span>
+                    </div>
+                    <div class="form-field inline">
+                        <label class="form-label">If yes, select all that apply:</label>
+                        <span class="form-value">
+                            <span>Oral Nutritional Supplements</span>
+                            <span>Tube Feeding</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field inline">
+                        <label class="form-label">Type of Admission:</label>
+                        <span class="form-value">Scheduled</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div style="text-align: center;
+    margin-top: 110px;
+    padding: 16px;
+    border-top: 1px solid #e6e6e6;
+    font-size: 11px;
+    width: 100%;
+    color: #333;
+    font-weight: 700;">© 2025 BAPEN. All right reserved.</div>

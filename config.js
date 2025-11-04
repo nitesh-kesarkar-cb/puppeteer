@@ -3,245 +3,230 @@ const fs = require("fs");
 const path = require("path");
 
 function toDataUrl(filePath) {
-    if (!filePath) return "";
-    const abs = path.resolve(__dirname, filePath);
-    if (!fs.existsSync(abs)) return "";
-    const mime = "image/png";
-    const data = fs.readFileSync(abs).toString("base64");
-    return `data:${mime};base64,${data}`;
+  if (!filePath) return "";
+  const abs = path.resolve(__dirname, filePath);
+  if (!fs.existsSync(abs)) return "";
+  const mime = "image/png";
+  const data = fs.readFileSync(abs).toString("base64");
+  return `data:${mime};base64,${data}`;
 }
 
 function dataUrlFromFont(filePath) {
-    const abs = path.resolve(__dirname, filePath);
-    if (!fs.existsSync(abs)) return "";
-    const ext = path.extname(abs).toLowerCase();
-    const mime = ext === ".otf" ? "font/otf" : "font/ttf";
-    const data = fs.readFileSync(abs).toString("base64");
-    return `data:${mime};base64,${data}`;
+  const abs = path.resolve(__dirname, filePath);
+  if (!fs.existsSync(abs)) return "";
+  const ext = path.extname(abs).toLowerCase();
+  const mime = ext === ".otf" ? "font/otf" : "font/ttf";
+  const data = fs.readFileSync(abs).toString("base64");
+  return `data:${mime};base64,${data}`;
 }
 
 // Load your logos from assets and convert to data URLs
-const logoDataUrl = toDataUrl("./assets/euro-logo.png");
-const footerLogoDataUrl = toDataUrl("./assets/nutricia-logo.png");
+const logoDataUrl = toDataUrl("./assets/logo.png");
 
-const dinamitRegular = dataUrlFromFont("./assets/Dinamit Regular.otf");
-const dinamitSemi = dataUrlFromFont("./assets/Dinamit SemiBold.otf");
+const dmSansSemiBold = dataUrlFromFont("./assets/DMSans-SemiBold.ttf");
+const tiltWarpRegular = dataUrlFromFont("./assets/TiltWarp-Regular.ttf");
 
 const fontCss = `
-@font-face {
-  font-family: 'Dinamit';
-  src: url('${dinamitRegular}') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Dinamit';
-  src: url('${dinamitSemi}') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-body { font-family: 'Dinamit', Arial, sans-serif; }
+ @font-face {
+        font-family: "DMSans-SemiBold";
+        src: url('${dmSansSemiBold}') format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
 
-* {
- line-height: 1.75;
-}
+      @font-face {
+        font-family: "TiltWarp";
+        src: url('${tiltWarpRegular}') format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      *,
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "DM Sans", sans-serif;
+      }
 `;
 
 module.exports = {
-    // PDF layout settings
-    pdf: {
-        format: "A4",
-        printBackground: true,
-        margin: {
-            top: "0",
-            right: "40px",
-            left: "40px",
-            bottom: "70px",
-        },
-        height: 793,
-        width: 1123,
+  // PDF layout settings
+  pdf: {
+    format: "A4",
+    printBackground: true,
+    margin: {
+      top: "0",
+      right: "40px",
+      left: "40px",
+      bottom: "0",
     },
-    // Optional global CSS injected into the page
-    css:
-        fontCss +
-        `
+    height: 793,
+    width: 1123,
+    logoDataUrl: logoDataUrl,
+  },
+  // Optional global CSS injected into the page
+  css:
+    fontCss +
+    `
+      *,
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "DM Sans", sans-serif;
+      }
 
-    :root {
-            --bg: #ffffff;
-            --ink: #303030;
-            --muted: #6b6b6b;
-            --border: #ededed;
-            --teal-100: #c9e3e3;
-            --teal-50: #ecf3f3;
-            --pill-bg: #fff9e9;
-            --pill-bd: #f4e1aa;
-            --pill-fg: #a87a00;
-            --card: #ffffff;
-            --note: #f7f7f7;
-            --radius: 8px;
-            --radius-sm: 6px;
-        }
+      /* Main Container */
+      .container {
+        margin: 0 auto;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+      }
 
+      /* Content Wrapper */
+      .content {
+        flex: 1;
+        padding: 40px;
+      }
 
-        @page {
-            size: A4;
-            margin-top: 110px;
-            /* MUST match header height */
-            margin-bottom: 70px;
-            /* Footer space */
-        }
+      /* Title Section */
+      .title-section {
+        text-align: center;
+        margin-bottom: 32px;
+      }
 
+      .title {
+        font-size: 28px;
+        font-weight: normal;
+        color: #0055a8;
+        margin-bottom: 8px;
+        font-family: "TiltWarp";
+      }
 
+      .subtitle {
+        color: #4c4c4c;
+        text-align: center;
+        leading-trim: both;
 
-        .topbar {
-            
-        }
+        text-edge: cap;
+        font-family: "DM Sans";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 128.086%;
+      }
 
-        .wrap {
-            padding: 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+      /* Information Header */
+      .info-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #d4e6f1;
+        padding: 12px 16px;
 
-        .logo img {
-            height: 26px;
-            width: auto;
-            display: block;
-        }
+        border-radius: 6px 6px 0 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
 
+        border: 1px solid #ccdded;
+        background: #edf8fd;
+      }
 
+      /* Form Rows */
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 16px;
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccdded;
+      }
 
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin: 8px 0;
-            page-break-inside: avoid;
-        }
+      .form-row.full {
+        grid-template-columns: 1fr;
+      }
 
-        .card-head {
-            background: var(--teal-50);
-            padding: 6px 10px;
-            border-bottom: 1px solid var(--border);
-            font-weight: 700;
-            font-size: 13.5px;
-        }
+      .form-row.three-col {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
 
-        .card-body {
-            padding: 8px 10px;
-            font-size: 13px;
-        }
+      /* Form Field */
+      .form-field {
+        display: flex;
+        flex-direction: column;
+      }
 
-        .kv {
-            margin: 4px 0 6px;
-        }
+      .form-field.inline {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
 
-        .kv-row {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
+      .form-label {
+        font-size: 11px;
+        color: #333;
+        font-weight: 500;
+      }
 
-        .kv .label {
-            color: var(--ink);
-            font-weight: 600;
-        }
+      .form-field.inline .form-label {
+        margin-bottom: 0;
+        min-width: 140px;
+        width: 50%;
+      }
 
-        .kv .value {
-            font-weight: 700;
-        }
+      .form-value {
+        color: #141414;
+        leading-trim: both;
 
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 6px 0;
-        }
+        text-edge: cap;
+        font-family: "DM Sans";
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 600;
+      }
 
-        .note {
-            background: var(--note);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 6px 10px;
-            color: var(--muted);
-            font-size: 12px;
-        }
+      .form-field.inline .form-value {
+        flex: 1;
+        width: 50%;
+      }
 
-        p {
-            margin: 4px 0 6px;
-        }
+      .form-field.inline .form-value div:not(:first-child) {
+        flex: 1;
+        width: 50%;
+        margin-top: 12px !important;
+      }
 
-        ul,
-        ol {
-            margin: 4px 0 6px 16px;
-            padding: 0;
-        }
+      .date-of-submission {
+        color: #4c4c4c;
 
-        li {
-            margin: 1px 0;
-        }
+        font-family: "DM Sans";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%;
+      }
 
-        h4 {
-            margin: 6px 0 2px;
-            font-size: 13.5px;
-            font-weight: 700;
-        }
+      .content-container {
+        background: #fff;
+      }
 
-        .muted {
-            color: var(--muted);
-        }
+      .info-content {
+        border-radius: 0 0 6px 6px;
+        border: 1px solid #ededed;
+        border-top: none;
 
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 10px;
-            border-radius: 6px;
-            background: var(--pill-bg);
-            border: 1px solid var(--pill-bd);
-            color: var(--pill-fg);
-            font-weight: 700;
-            margin-top: 6px;
-            font-size: 13px;
-        }
-
-        .subhead {
-            font-weight: 700;
-            margin: 6px 0 4px;
-        }
-
-        .powered {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--muted);
-            font-size: 12px;
-            margin: 10px 0 6px;
-            padding-left: 6px;
-        }
-
-        .hr-soft {
-            height: 1px;
-            background: #e3eeee;
-            border: 0;
-        }
-
-        .b {
-            font-weight: 800;
-        }
+        background: #fff;
+        padding-top: 24px;
+      }
   `,
-    // Header HTML (fixed height area that stays at the top)
-    header: {
-        height: "22px",
-        logoDataUrl: logoDataUrl,
-    },
-    // Footer HTML (page footer with centered text and logo)
-    footer: {
-        height: "20px",
-        footerLogoDataUrl: footerLogoDataUrl,
-    },
-    // Optional: path to assets if you need in code
-    assetsPath: path.join(__dirname, "assets"),
+  // Optional: path to assets if you need in code
+  assetsPath: path.join(__dirname, "assets"),
 };
